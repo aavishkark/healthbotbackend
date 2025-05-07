@@ -60,7 +60,7 @@ userRouter.post('/query', async (req, res) => {
       const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer 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`,
+          'Authorization': `Bearer ${process.env.Groq}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
