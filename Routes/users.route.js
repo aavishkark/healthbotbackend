@@ -52,4 +52,38 @@ userRouter.post('/login',async(req,res)=>{
     }
 })
 
+
+userRouter.post('/query', async (req, res) => {
+    try {
+      const { query } = req.body;
+  
+      const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer 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`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'llama3-70b-8192',
+          messages: [
+            {
+              role: 'system',
+              content:
+                'You are a helpful nutrition assistant. Only answer questions related to calories and your response will only have calories and nothing else. If user specifies specific amount then make your response according to it or if user does not specify consider 100gm as default.',
+            },
+            { role: 'user', content: query },
+          ],
+        }),
+      });
+  
+      const data = await response.json();
+      const answer = data.choices[0].message.content;
+      res.status(200).json({ reply: answer });
+  
+    } catch (error) {
+      console.error('Groq API Error:', error);
+      res.status(500).json({ error: error.message });
+    }
+  });
+
 module.exports={userRouter};
