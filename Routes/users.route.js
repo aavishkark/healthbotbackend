@@ -2,7 +2,8 @@ const express=require('express');
 const userRouter=express.Router();
 const bcrypt=require('bcrypt');
 const { UserModel } = require('../Model/users.model');
-const jwt=require('jsonwebtoken')
+const { CalorieModel } = require('../Model/calories.model');
+const jwt = require('jsonwebtoken');
 
 userRouter.post('/signup',async(req,res)=>{
     const {name,email,password}=req.body
@@ -69,7 +70,7 @@ userRouter.post('/query', async (req, res) => {
             {
               role: 'system',
               content:
-                'You are a helpful nutrition assistant. Only answer questions related to calories and your response will only have calories and nothing else. If user specifies specific amount then make your response according to it or if user does not specify consider 100gm as default.',
+                'You are a helpful nutrition assistant. Only answer questions related to calories and your response will only have calories and nothing else. The response should not be in range it should always be a number. If user specifies specific amount then make your response according to it or if user does not specify consider 100gm as default.',
             },
             { role: 'user', content: query },
           ],
@@ -86,4 +87,30 @@ userRouter.post('/query', async (req, res) => {
     }
   });
 
+  userRouter.post('/addcalories', async (req, res) => {
+    const token = req.headers.authorization?.split(" ")[1];
+  
+    if (!token) {
+      return res.status(401).json({ msg: "Token missing or invalid" });
+    }
+  
+    try {
+      const decoded = jwt.verify(token, "masai");
+      const { query, calories } = req.body;
+  
+      const user = await UserModel.findById(decoded.userId);
+  
+      if (!user) {
+        return res.status(404).json({ msg: "User not found" });
+      }
+  
+      user.calories.push({ query, calories });
+      await user.save();
+  
+      res.status(200).json({ msg: "Calories added to user profile", user });
+    } catch (err) {
+      res.status(500).json({ msg: "Error saving calorie info", error: err.message });
+    }
+  });
+  
 module.exports={userRouter};
