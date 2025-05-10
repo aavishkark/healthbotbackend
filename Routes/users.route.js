@@ -85,5 +85,31 @@ userRouter.post('/query', async (req, res) => {
       res.status(500).json({ error: error.message });
     }
   });
+
+  userRouter.post('/addcalories', async (req, res) => {
+    const token = req.headers.authorization?.split(" ")[1];
+  
+    if (!token) {
+      return res.status(401).json({ msg: "Token missing or invalid" });
+    }
+  
+    try {
+      const decoded = jwt.verify(token, "masai");
+      const { query, calories } = req.body;
+  
+      const user = await UserModel.findById(decoded.userId);
+  
+      if (!user) {
+        return res.status(404).json({ msg: "User not found" });
+      }
+  
+      user.calories.push({ query, calories });
+      await user.save();
+  
+      res.status(200).json({ msg: "Calories added to user profile", user });
+    } catch (err) {
+      res.status(500).json({ msg: "Error saving calorie info", error: err.message });
+    }
+  });
   
 module.exports={userRouter};
