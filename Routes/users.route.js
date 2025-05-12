@@ -87,7 +87,6 @@ userRouter.post('/query', async (req, res) => {
   });
 
   userRouter.post('/addcalories', async (req, res) => {
-    const token = req.headers.authorization?.split(" ")[1];
     const email = req.body.email;
   
     if (!email) {
