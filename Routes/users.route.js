@@ -88,16 +88,16 @@ userRouter.post('/query', async (req, res) => {
 
   userRouter.post('/addcalories', async (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];
+    const email = req.body.email;
   
-    if (!token) {
-      return res.status(401).json({ msg: "Token missing or invalid" });
+    if (!email) {
+      return res.status(400).json({ msg: "Email is required" });
     }
   
     try {
-      const decoded = jwt.verify(token, "masai");
       const { query, calories } = req.body;
   
-      const user = await UserModel.findById(decoded.userId);
+      const user = await UserModel.findOne({ email });
   
       if (!user) {
         return res.status(404).json({ msg: "User not found" });
