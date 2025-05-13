@@ -87,7 +87,6 @@ userRouter.post('/query', async (req, res) => {
   });
 
   userRouter.post('/addcalories', async (req, res) => {
-    console.log(req.body);
     const email = req.body.email;
   
     if (!email) {
@@ -113,7 +112,7 @@ userRouter.post('/query', async (req, res) => {
   });
 
   userRouter.get('/getProfile', async (req, res) => {
-    const email = req.body.email;
+    const email = req.query.email;
   
     if (!email) {
       return res.status(400).json({ msg: "Email is required" });
