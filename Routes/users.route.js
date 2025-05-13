@@ -111,5 +111,25 @@ userRouter.post('/query', async (req, res) => {
       res.status(500).json({ msg: "Error saving calorie info", error: err.message });
     }
   });
+
+  userRouter.get('/getcalories', async (req, res) => {
+    const email = req.body.email;
+  
+    if (!email) {
+      return res.status(400).json({ msg: "Email is required" });
+    }
+  
+    try {
+      const user = await UserModel.findOne({ email });
+  
+      if (!user) {
+        return res.status(404).json({ msg: "User not found" });
+      }
+  
+      res.status(200).json({ calories: user.calories });
+    } catch (err) {
+      res.status(500).json({ msg: "Error fetching calorie info", error: err.message });
+    }
+  });
   
 module.exports={userRouter};
