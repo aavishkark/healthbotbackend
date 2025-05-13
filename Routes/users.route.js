@@ -112,7 +112,7 @@ userRouter.post('/query', async (req, res) => {
     }
   });
 
-  userRouter.get('/getcalories', async (req, res) => {
+  userRouter.get('/getProfile', async (req, res) => {
     const email = req.body.email;
   
     if (!email) {
@@ -126,7 +126,7 @@ userRouter.post('/query', async (req, res) => {
         return res.status(404).json({ msg: "User not found" });
       }
   
-      res.status(200).json({ calories: user.calories });
+      res.status(200).json({ user: user });
     } catch (err) {
       res.status(500).json({ msg: "Error fetching calorie info", error: err.message });
     }
