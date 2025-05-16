@@ -94,7 +94,7 @@ userRouter.post('/query', async (req, res) => {
     }
   
     try {
-      const { query, calories } = req.body;
+      const { query, calories, foodItem, foodAmount } = req.body;
   
       const user = await UserModel.findOne({ email });
   
@@ -102,7 +102,7 @@ userRouter.post('/query', async (req, res) => {
         return res.status(404).json({ msg: "User not found" });
       }
   
-      user.calories.push({ query, calories });
+      user.calories.push({ query, calories, foodItem, foodAmount });
       await user.save();
   
       res.status(200).json({ msg: "Calories added to user profile", user });
