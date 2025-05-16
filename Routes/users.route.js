@@ -69,7 +69,7 @@ userRouter.post('/query', async (req, res) => {
             {
               role: 'system',
               content:
-                'You are a helpful nutrition assistant. Only answer questions related to calories and your response will only have calories and nothing else. The response should not be in range it should always be a number. If user specifies specific amount then make your response according to it or if user does not specify consider 100gm as default.',
+                'You are a helpful nutrition assistant. Only answer questions related to calories and your response will only have calories and weight of food mentioned by user in query, nothing else. The response should not be in range it should always be a number. If user specifies specific amount then make your response according to it or if user does not specify consider 100gm as default and also consider it in response.',
             },
             { role: 'user', content: query },
           ],
