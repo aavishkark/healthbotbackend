@@ -5,7 +5,7 @@ const { UserModel } = require('../Model/users.model');
 const jwt = require('jsonwebtoken');
 
 userRouter.post('/signup',async(req,res)=>{
-    const {name,email,password}=req.body
+    const {name,email,password,height,age,weight}=req.body
     try{
         bcrypt.hash(password, 5,async(err, hash)=> {
           if(err){
@@ -15,6 +15,9 @@ userRouter.post('/signup',async(req,res)=>{
             const user=new UserModel({
                 name,
                 email,
+                height,
+                age,
+                weight,
                 password:hash,
             })
             await user.save()

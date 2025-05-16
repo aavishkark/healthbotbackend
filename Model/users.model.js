@@ -11,6 +11,9 @@ const useSchema = mongoose.Schema({
     name:String,
     email:String,
     password:String,
+    height:String,
+    weight:String,
+    age:String,
     calories: [calorieEntrySchema]
 })
 
