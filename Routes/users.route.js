@@ -5,7 +5,7 @@ const { UserModel } = require('../Model/users.model');
 const jwt = require('jsonwebtoken');
 
 userRouter.post('/signup',async(req,res)=>{
-    const {name,email,password,height,age,weight,activitylevel}=req.body
+    const {name,email,password,height,age,weight,activitylevel,gender}=req.body
     try{
         bcrypt.hash(password, 5,async(err, hash)=> {
           if(err){
@@ -18,6 +18,7 @@ userRouter.post('/signup',async(req,res)=>{
                 height,
                 age,
                 weight,
+                gender,
                 activitylevel,
                 password:hash,
             })
