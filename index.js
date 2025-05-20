@@ -6,7 +6,7 @@ const cors = require('cors');
 app.use(cors());
 app.use(express.json())
 app.use('/',userRouter)
-app.listen(8080,async()=>{
+app.listen(process.env.PORT,async()=>{
     try{
         await connection
         console.log("Connected to Mongo Atlas")
