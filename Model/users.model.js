@@ -14,6 +14,7 @@ const useSchema = mongoose.Schema({
     height:String,
     weight:String,
     age:String,
+    activitylevel:String,
     calories: [calorieEntrySchema]
 })
 
