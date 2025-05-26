@@ -135,5 +135,17 @@ userRouter.post('/query', async (req, res) => {
       res.status(500).json({ msg: "Error fetching calorie info", error: err.message });
     }
   });
+
+  userRouter.patch('/updateProfile/:userid',async(req,res)=>{
+    const id=req.params.userid
+    try{
+      await UserModel.findByIdAndUpdate({_id:id},req.body)
+      res.status(200).send({"msg":`The profile of user with id- ${id} has been updated successfully`,"update":req.body})
+    }
+    catch(err){
+      res.status(400).send({"err":err})
+    }
+ })
+
   
 module.exports={userRouter};
