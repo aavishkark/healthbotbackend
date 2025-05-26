@@ -4,6 +4,8 @@ const calorieEntrySchema = new mongoose.Schema({
     foodItem: String,
     foodAmount: String,
     calories: String,
+    proteins: String,
+    fats: String,
     timestamp: { type: Date, default: Date.now }
   });
 
